@@ -1,0 +1,59 @@
+app:
+  name: "Outlook 自动发送助手"
+  version: "1.0.0"
+  language: "zh-CN"
+
+excel:
+  file_path: ""  # Excel 文件路径，用户通过界面选择
+  columns:
+    status: "状态"
+    send_mode: "发送方式"
+    subject: "主题"
+    to: "收件人"
+    cc: "抄送"
+    bcc: "密送"
+    template_name: "模板名称"
+    attachments: "附件路径"
+    send_time: "发送时间"
+    error_message: "错误信息"
+    custom_fields: []  # 自定义字段列表
+
+status_values:
+  pending: "待发送"
+  scheduled: "已排程"
+  sent: "已发送"
+  failed: "发送失败"
+
+send_mode_values:
+  immediate: "立即发送"
+  scheduled: "定时发送"
+
+templates_file: "templates.yaml"
+
+outlook:
+  auto_close_after_send: true
+  signature_enabled: true
+  importance: "normal"  # low, normal, high
+  read_receipt: false
+  delivery_receipt: false
+
+workdays:
+  enabled: true
+  days: [1, 2, 3, 4, 5]  # 1=Monday, 7=Sunday
+  start_time: "09:00"
+  end_time: "18:00"
+  skip_holidays: true
+  holidays: []  # 节假日列表 YYYY-MM-DD
+
+error_handling:
+  max_retries: 3
+  retry_interval_seconds: 60
+  log_errors: true
+  notify_on_failure: true
+
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  file_path: "logs/app.log"
+  max_bytes: 10485760  # 10MB
+  backup_count: 5
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

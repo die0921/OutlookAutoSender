@@ -1,0 +1,9 @@
+templates:
+  简单模板:
+    subject: "{{主题}}"
+    body_type: "text"
+    body_parts:
+      - type: "text"
+        content: "{{正文}}"
+
+global_attachments: []
