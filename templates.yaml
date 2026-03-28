@@ -1,9 +1,32 @@
-templates:
-  简单模板:
-    subject: "{{主题}}"
-    body_type: "text"
-    body_parts:
-      - type: "text"
-        content: "{{正文}}"
-
 global_attachments: []
+templates:
+  日报模板:
+    body_parts:
+    - content: '尊敬的 {{ 客户名称 }}：
+
+
+        以下是您的日报内容。
+
+
+        此邮件由系统自动发送。'
+      type: text
+    body_type: html
+    subject: '{{ 月份 }}月日报 - {{ 客户名称 }}'
+  月报模板:
+    body_parts:
+    - content: '尊敬的 {{ 客户名称 }}：
+
+
+        请查收本月报告。
+
+
+        此邮件由系统自动发送。'
+      type: text
+    body_type: html
+    subject: '{{ 月份 }}月度报告 - {{ 客户名称 }}'
+  简单模板:
+    body_parts:
+    - content: '{{ 正文 }}'
+      type: text
+    body_type: text
+    subject: '{{ 主题 }}'

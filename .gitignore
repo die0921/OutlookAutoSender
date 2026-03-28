@@ -35,7 +35,7 @@ logs/*.log
 # User data
 *.xlsx
 *.xls
-data/
+/data/
 
 # Config overrides
 config.local.yaml
