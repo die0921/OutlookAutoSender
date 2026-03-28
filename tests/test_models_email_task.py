@@ -1,5 +1,5 @@
 from src.models.email_task import EmailTask
-from datetime import datetime, date
+from datetime import datetime
 
 
 def test_email_task_creation():
@@ -48,3 +48,22 @@ def test_email_task_status_checks():
     assert task.is_sent() is False
     assert task.is_failed() is False
     assert task.is_repeat_mode() is True
+
+    # Also test True paths
+    task_sent = EmailTask(
+        row_index=2, recipient="a@b.com", cc="", subject="", attachments="",
+        status="已发送", send_mode="一次性", template_name="",
+        schedule_type="按天", schedule_params="9:00",
+        planned_time=None, last_sent_date=None, sent_time=None, variables={}
+    )
+    assert task_sent.is_sent() is True
+    assert task_sent.is_pending() is False
+    assert task_sent.is_repeat_mode() is False
+
+    task_failed = EmailTask(
+        row_index=3, recipient="a@b.com", cc="", subject="", attachments="",
+        status="发送失败", send_mode="一次性", template_name="",
+        schedule_type="按天", schedule_params="9:00",
+        planned_time=None, last_sent_date=None, sent_time=None, variables={}
+    )
+    assert task_failed.is_failed() is True
