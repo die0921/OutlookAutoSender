@@ -1,59 +1,55 @@
 app:
-  name: "Outlook 自动发送助手"
-  version: "1.0.0"
-  language: "zh-CN"
-
-excel:
-  file_path: ""  # Excel 文件路径，用户通过界面选择
-  columns:
-    status: "状态"
-    send_mode: "发送方式"
-    subject: "主题"
-    to: "收件人"
-    cc: "抄送"
-    bcc: "密送"
-    template_name: "模板名称"
-    attachments: "附件路径"
-    send_time: "发送时间"
-    error_message: "错误信息"
-    custom_fields: []  # 自定义字段列表
-
-status_values:
-  pending: "待发送"
-  scheduled: "已排程"
-  sent: "已发送"
-  failed: "发送失败"
-
-send_mode_values:
-  immediate: "立即发送"
-  scheduled: "定时发送"
-
-templates_file: "templates.yaml"
-
-outlook:
-  auto_close_after_send: true
-  signature_enabled: true
-  importance: "normal"  # low, normal, high
-  read_receipt: false
-  delivery_receipt: false
-
-workdays:
-  enabled: true
-  days: [1, 2, 3, 4, 5]  # 1=Monday, 7=Sunday
-  start_time: "09:00"
-  end_time: "18:00"
-  skip_holidays: true
-  holidays: []  # 节假日列表 YYYY-MM-DD
-
+  check_interval: 60
+  expiry_notice_minutes: 30
+  name: Outlook 自动发送助手
 error_handling:
-  max_retries: 3
-  retry_interval_seconds: 60
-  log_errors: true
-  notify_on_failure: true
-
+  mark_failed_as: 发送失败
+  notification:
+    show_dialog: true
+    sound_alert: true
+  on_error:
+    skip_and_continue: false
+    stop_scheduler: true
+excel:
+  columns:
+    attachments: 附件路径
+    cc: 抄送
+    last_sent_date: 最后发送日期
+    planned_time: 计划发送时间
+    recipient: 收件人
+    schedule_params: 发送参数
+    schedule_type: 发送方式
+    send_mode: 发送模式
+    sent_time: 实际发送时间
+    status: 发送状态
+    subject: 主题
+    template: 使用模板
+  main_file: data/emails.xlsx
+  sheet_name: 邮件列表
 logging:
-  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
-  file_path: "logs/app.log"
-  max_bytes: 10485760  # 10MB
   backup_count: 5
-  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: logs/app.log
+  level: INFO
+  max_size_mb: 10
+outlook:
+  account: ''
+  save_to_sent: true
+send_mode_values:
+  once: 一次性
+  repeat: 重复
+status_values:
+  expired: 已过期
+  failed: 发送失败
+  pending: 待发送
+  sent: 已发送
+templates_file: templates.yaml
+workdays:
+  holidays:
+  - '2026-01-01'
+  - '2026-10-01'
+  weekdays:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
