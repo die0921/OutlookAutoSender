@@ -18,6 +18,9 @@ from src.services.outlook_contact_service import OutlookContactService
 from src.services.email_service import EmailService
 from src.services.scheduler_service import SchedulerService
 from src.ui.main_window import MainWindow
+from src.ui.config_dialog import ConfigDialog
+from src.ui.template_manager import TemplateManager
+from src.ui.history_viewer import HistoryViewer
 
 CONFIG_FILE = os.path.join(os.path.dirname(__file__), 'config.yaml')
 TEMPLATES_FILE = os.path.join(os.path.dirname(__file__), 'templates.yaml')
@@ -102,6 +105,42 @@ def main():
     window.stop_requested.connect(on_stop)
     window.manual_send_requested.connect(on_manual)
     window.refresh_requested.connect(on_refresh)
+
+    # 菜单：配置
+    def on_open_config():
+        dlg = ConfigDialog(config, parent=window)
+        dlg.exec_()
+
+    # 菜单：模板管理
+    def on_open_templates():
+        loader = TemplateLoader(TEMPLATES_FILE)
+        templates = loader.load_all()
+        dlg = TemplateManager(templates, parent=window)
+        dlg.exec_()
+
+    # 菜单：历史记录
+    def on_open_history():
+        try:
+            tasks = ExcelReader(config.excel).read_tasks(config.excel.main_file)
+            sent = [t for t in tasks if t.status in ('已发送', 'sent')]
+        except Exception:
+            sent = []
+        dlg = HistoryViewer(sent, parent=window)
+        dlg.exec_()
+
+    # 菜单：关于
+    def on_about():
+        QMessageBox.about(
+            window,
+            "关于 Outlook 自动发送助手",
+            "Outlook 自动发送助手\n\n版本: 1.0.0\n\n"
+            "基于 Python + PyQt5 构建\n自动定时发送 Outlook 邮件"
+        )
+
+    window.action_config.triggered.connect(on_open_config)
+    window.action_templates.triggered.connect(on_open_templates)
+    window.action_history.triggered.connect(on_open_history)
+    window.action_about.triggered.connect(on_about)
 
     window.show()
     return app.exec_()
