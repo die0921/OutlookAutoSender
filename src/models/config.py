@@ -1,13 +1,11 @@
 from dataclasses import dataclass
-from typing import Dict, List
+from typing import List, Dict
 
 
 @dataclass(frozen=True)
 class AppConfig:
     """应用配置"""
-
     name: str
-    version: str
     check_interval: int
     expiry_notice_minutes: int
 
@@ -15,58 +13,47 @@ class AppConfig:
 @dataclass(frozen=True)
 class ExcelConfig:
     """Excel 配置"""
-
-    file_path: str
+    main_file: str
+    sheet_name: str
     columns: Dict[str, str]
 
 
 @dataclass(frozen=True)
 class OutlookConfig:
     """Outlook 配置"""
-
-    auto_close_after_send: bool
-    signature_enabled: bool
-    importance: str
-    read_receipt: bool
-    delivery_receipt: bool
+    account: str
+    save_to_sent: bool
 
 
 @dataclass(frozen=True)
 class WorkdaysConfig:
     """工作日配置"""
-
-    enabled: bool
-    days: List[int]
-    start_time: str
-    end_time: str
-    skip_holidays: bool
+    weekdays: List[int]
     holidays: List[str]
 
 
 @dataclass(frozen=True)
 class ErrorHandlingConfig:
     """错误处理配置"""
-
-    max_retries: int
-    retry_interval_seconds: int
-    log_errors: bool
-    notify_on_failure: bool
+    stop_scheduler: bool
+    skip_and_continue: bool
+    mark_failed_as: str
+    show_dialog: bool
+    sound_alert: bool
 
 
 @dataclass(frozen=True)
 class LoggingConfig:
     """日志配置"""
-
     level: str
-    file_path: str
-    max_bytes: int
+    file: str
+    max_size_mb: int
     backup_count: int
 
 
 @dataclass(frozen=True)
 class Config:
     """完整配置"""
-
     app: AppConfig
     excel: ExcelConfig
     outlook: OutlookConfig
